@@ -1,7 +1,7 @@
 import Navbar from './Navbar';
-import Home from './Home';
 import { Routes, Route,Router } from 'react-router-dom';
-import Create from "./Create";
+import Create from './Create'
+import Home from './Home'
 
 function App() {
   return (
