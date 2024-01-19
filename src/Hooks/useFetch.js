@@ -1,33 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 
-const useFetch = (url, hardCodedData) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+//initialSet is set to empty. 
+//When the reducer function is called, the state is set to the result that was fetched from the API.
+const initialState = {
+  loading: true,
+  error: '',
+  posts: []
+}
+const reducer = (state, action) => {
+  console.log("action", action)
+  switch (action.type) {
+    case 'FETCH_SUCCESS':
+      return {
+        loading: false,
+        posts: action.payload,
+        error: ''
+      }
+    case 'FETCH_ERROR':
+      return {
+        loading: false,
+        posts: [],
+        error: 'Something went wrong!'
+      }
+    default:
+      return state
+  }
+}
 
+const useFetch = (url) => {
+  //state is set to initial state when initialised. 
+  //When dispatch is called, the reducer function is called with the current state and the action. 
+  //The reducer function returns the new state based on the action type. 
+  //The new state is then set to the state variable.
+  const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
     let result = [];
     const fetchData = async () => {
-      try {
-        if(url === null){
-            result = hardCodedData
-        } else{
-            const response = await fetch(url);
-            result = await response.json();
-        }
-        setData(result);
+      try { 
+          const response = await fetch(url);
+          result = await response.json();
+          console.log("result", result)
       } catch (error) {
+        dispatch({type: 'FETCH_ERROR'})
         console.log("error while fetching data from url", error)
-        setError(error);
       } finally {
-        setLoading(false);
+        dispatch({type: 'FETCH_SUCCESS', payload: result})
       }
     };
 
     fetchData();
   }, [url]);
-
-  return { data, loading, error };
+  return state;
 };
 
 export default useFetch;
