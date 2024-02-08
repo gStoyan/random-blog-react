@@ -7,7 +7,7 @@ const initialState = {
   error: '',
   posts: []
 }
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
   console.log("action", action)
   switch (action.type) {
     case 'FETCH_SUCCESS':
@@ -27,14 +27,14 @@ const reducer = (state, action) => {
   }
 }
 
-const useFetch = (url) => {
+const useFetch = (url: any) => {
   //state is set to initial state when initialised. 
   //When dispatch is called, the reducer function is called with the current state and the action. 
   //The reducer function returns the new state based on the action type. 
   //The new state is then set to the state variable.
   const [state, dispatch] = useReducer(reducer, initialState)
   useEffect(() => {
-    let result = [];
+    let result: any;
     const fetchData = async () => {
       try { 
           const response = await fetch(url);
