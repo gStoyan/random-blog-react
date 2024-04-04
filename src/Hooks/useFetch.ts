@@ -1,11 +1,13 @@
 import { useState, useEffect, useReducer } from 'react';
+import User from '../Models/User';
+import Blog from '../Models/Blog';
 
 //initialSet is set to empty. 
 //When the reducer function is called, the state is set to the result that was fetched from the API.
 const initialState = {
   loading: true,
   error: '',
-  posts: []
+  data: []
 }
 const reducer = (state: any, action: any) => {
   console.log("action", action)
@@ -13,13 +15,13 @@ const reducer = (state: any, action: any) => {
     case 'FETCH_SUCCESS':
       return {
         loading: false,
-        posts: action.payload,
+        data: action.payload,
         error: ''
       }
     case 'FETCH_ERROR':
       return {
         loading: false,
-        posts: [],
+        data: [],
         error: 'Something went wrong!'
       }
     default:
@@ -37,9 +39,14 @@ const useFetch = (url: any) => {
     let result: any;
     const fetchData = async () => {
       try { 
+        if (url==="users") {
+          result = await seedUsers();
+          console.log("result", result)
+          dispatch({type: 'FETCH_SUCCESS', payload: result})
+          return;
+        }
           const response = await fetch(url);
           result = await response.json();
-          console.log("result", result)
       } catch (error) {
         dispatch({type: 'FETCH_ERROR'})
         console.log("error while fetching data from url", error)
@@ -52,5 +59,56 @@ const useFetch = (url: any) => {
   }, [url]);
   return state;
 };
+
+
+//seeding data for testing
+//TODO: Remove
+function seedUsers(){
+  return Promise.resolve([
+    {
+        id: 1,
+        name: "John",
+        email: "test",
+        dateOfBirth: "1990-01-01",
+        blogs: Array<Blog>()
+    },
+    {
+        id: 2,
+        name: "Jane",
+        email: "test",
+        dateOfBirth: "1990-01-01",
+        blogs: [
+            {
+                title: "Test",
+                content: "Test",
+                date: "2021-01-01"
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: "Jack",
+        email: "test",
+        dateOfBirth: "1990-01-01",
+        blogs: [
+            {
+                title: "Test",
+                content: "Test",
+                date: "2021-01-01"
+            },
+            {
+                title: "Test",
+                content: "Test",
+                date: "2021-01-01"
+            },
+            {
+                title: "Test",
+                content: "Test",
+                date: "2021-01-01"
+            }
+        ]
+    }
+  ]);
+}
 
 export default useFetch;

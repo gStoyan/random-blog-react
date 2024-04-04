@@ -8,8 +8,6 @@ const onCreateSubmit = (data: any) => {
     }, 3000);
 };
 
-//Question? where to write hooks and hwhere to write functions
-
   const [step , setStep] = useState(1);
   const {values, changeHandler, onSubmit, errors} = useForm(
     {
@@ -27,33 +25,34 @@ const onCreateSubmit = (data: any) => {
     setStep(step - 1);
   };
 
-  const renderForm = () => {
-    switch (step) {
-      case 1:
-        return (
-          <div>
-            <label>Title:</label>
-            <input type="text" name="title" value={values.title} onChange={changeHandler} />
-            <button onClick={nextStep}>Next</button>
-          </div>
-        );
-      case 2:
-        return (
-          <div>
-            <label>Email:</label>
-            <input type="text" name="content" value={values.content} onChange={changeHandler} />
-            <button onClick={prevStep}>Previous</button>
-            <button onClick={nextStep}>Next</button>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
-  return (
-    <form onSubmit={onCreateSubmit}>
-      {renderForm()}
+  const renderStepOne = () => (
+    <form onSubmit={nextStep}>
+      <label>
+        Title:
+        <input type="text" name="title"  value={values.title} onChange={changeHandler} required />
+      </label>
+      <button type="submit">Next</button>
     </form>
+  );
+
+  const renderStepTwo = () => (
+    <form onSubmit={onSubmit}>
+      <label>
+        <h2>{values.title}</h2>
+        Content:
+        <textarea name="content" value={values.content} onChange={changeHandler} required />
+      </label>
+      <button type="button" onClick={prevStep}>Previous</button>
+      <button type="submit">Submit</button>
+    </form>
+  );
+
+  return (
+    <div>
+      <h2></h2>
+      {step === 1 && renderStepOne()}
+      {step === 2 && renderStepTwo()}
+    </div>
   );
 };
 

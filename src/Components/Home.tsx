@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import useFetch from '../Hooks/useFetch';
+import Blog from '../Models/Blog';
 
 const Home = () => {
   const state = useFetch("https://jsonplaceholder.typicode.com/posts");
-
+  const blogs: Blog[] = state.data;
 if (state.error) {
   return <p>Error: {state.error.message}</p>;
 }
 
 return (
-  console.log("data", state.posts),
+  console.log("data", state.data),
   <div>
 
     {state.loading ? (
       <p>Loading...</p>
     ) : (
       <ul>
-        {console.log(state.posts)}{state.posts.map((post: any) => (
-          <li key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
+        {console.log("blogs", blogs)}
+         {state.data.map((blog: any) => (
+          <li key={blog.id}>
+            <h2>{blog.title}</h2>
+            <p>{blog.content_text}</p>
           </li>
         ))}
       </ul>

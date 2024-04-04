@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Create from './Create'
 import Home from './Home'
 import Login from './Login'
+import Statistics from './UserStatistics'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
   <Routes>
       <Route path='/' element={<Home />} />
       <Route path="create" element={<Create />} />
+      <Route path="statistics" element={<Statistics />} />
 
       <Route path="login" element={<Login />} />
   </Routes>

@@ -1,11 +1,13 @@
 import React from 'react';
 
+
 const Navbar = () => {
   return (
     <nav className="navbar">
       <h1>My Random Blog</h1>
       <div className="links">
         <a href="/">Home</a>
+        <a href="/statistics">Statistics</a>
         <a href="/login">Login</a>
         <a href="/create" style={{ 
           color: 'white', 
