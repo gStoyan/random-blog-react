@@ -18,10 +18,10 @@ return (
     ) : (
       <ul>
         {console.log("blogs", blogs)}
-         {state.data.map((blog: any) => (
+         {state.data.map((blog: Blog) => (
           <li key={blog.id}>
             <h2>{blog.title}</h2>
-            <p>{blog.content_text}</p>
+            <p>{blog.body}</p>
           </li>
         ))}
       </ul>

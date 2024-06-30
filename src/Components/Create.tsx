@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useForm from '../Hooks/useForm';
+import Dropdown from './Dropdown';
 const Create = () => {
 const onCreateSubmit = (data: any) => {
     //TODO send data to the server
@@ -35,7 +36,7 @@ const onCreateSubmit = (data: any) => {
     </form>
   );
 
-  const renderStepTwo = () => (
+  const renderStepThree = () => (
     <form onSubmit={onSubmit}>
       <label>
         <h2>{values.title}</h2>
@@ -43,7 +44,22 @@ const onCreateSubmit = (data: any) => {
         <textarea name="content" value={values.content} onChange={changeHandler} required />
       </label>
       <button type="button" onClick={prevStep}>Previous</button>
-      <button type="submit">Submit</button>
+      <button type="submit">submit</button>
+    </form>
+  );
+
+  const renderStepTwo = () => (
+    <form onSubmit={nextStep}>
+      <label>
+      <h2>{values.title}</h2>
+      <p>{values.content}</p>
+<Dropdown>
+  <p>1</p>
+  <p>2</p>
+  <p>3</p>
+</Dropdown>
+      </label>
+      <button type="submit">Next</button>
     </form>
   );
 
@@ -52,6 +68,7 @@ const onCreateSubmit = (data: any) => {
       <h2></h2>
       {step === 1 && renderStepOne()}
       {step === 2 && renderStepTwo()}
+      {step === 3 && renderStepThree()}
     </div>
   );
 };
