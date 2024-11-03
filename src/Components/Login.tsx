@@ -29,7 +29,7 @@ const Login = () => {
         {isWaiting ? (<p>Waiting...</p>) :(
         <div>
             <h2>Login</h2>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className='login-form'>
                 <div>
                     <label htmlFor="username">Username:</label>
                     <input
@@ -82,7 +82,7 @@ const Login = () => {
                 <p className="error-field">
                 {errors?.email || errors?.password || errors?.repeatPassword}
               </p>
-                <button type="submit" disabled={!(errors?.email || errors?.password || errors?.repeatPassword)} >Login</button>
+                <button type="submit" disabled={!!(errors?.email || errors?.password || errors?.repeatPassword)} >Login</button>
             </form>
         </div>
         ) }

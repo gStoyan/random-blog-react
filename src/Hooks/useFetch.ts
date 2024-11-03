@@ -41,7 +41,6 @@ const useFetch = (url: any) => {
       try { 
         if (url==="users") {
           result = await seedUsers();
-          console.log("result", result)
           dispatch({type: 'FETCH_SUCCESS', payload: result})
           return;
         }
@@ -49,7 +48,6 @@ const useFetch = (url: any) => {
           result = await response.json();
       } catch (error) {
         dispatch({type: 'FETCH_ERROR'})
-        console.log("error while fetching data from url", error)
       } finally {
         dispatch({type: 'FETCH_SUCCESS', payload: result})
       }
