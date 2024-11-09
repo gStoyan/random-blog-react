@@ -3,7 +3,8 @@ import useFetch from '../Hooks/useFetch';
 import Blog from '../Models/Blog';
 
 const Home = () => {
-  const state = useFetch("https://jsonplaceholder.typicode.com/posts");
+  const state = useFetch("localhost:3000/blogs");
+  
   const blogs: Blog[] = state.data;
   const [visiblePostIds, setVisiblePostIds] = useState<number[]>([]);
 

@@ -1,18 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
 import useForm from '../Hooks/useForm';
+import useFetch from '../Hooks/useFetch';
+import { resolve } from 'path';
 
 const Login = () => {
     const [isWaiting, setIsWaiting] = useState(false);
-    
-    const onRegisterSubmit = (data: any) => {
-        setIsWaiting(true);
-        setTimeout(() => {
 
-            //TODO: Login user
+    const login = useFetch('http://localhost:3000/auth/login');
+    const onRegisterSubmit = async (data: any) => {
+        setIsWaiting(true);
+        const response = login();
+        if (response.error) {
             setIsWaiting(false);
-            alert(`Success! \n ${JSON.stringify(data)}`);
-        }, 3000);
+            alert(`Error: ${response.error.message}`);
+            return;
+        }
+        if(response.ok) {
+                const {token} = await response.json();
+                localStorage.setItem('authToken', token);
+            }
+        setIsWaiting(false);
+        alert(`Success! \n ${JSON.stringify(data)}`);
     };
     const {values, changeHandler, onSubmit, errors} = useForm(
         {
@@ -82,7 +91,7 @@ const Login = () => {
                 <p className="error-field">
                 {errors?.email || errors?.password || errors?.repeatPassword}
               </p>
-                <button type="submit" disabled={!!(errors?.email || errors?.password || errors?.repeatPassword)} >Login</button>
+                <button type="submit" className="submit-button" disabled={!!(errors?.email || errors?.password || errors?.repeatPassword)} >Login</button>
             </form>
         </div>
         ) }

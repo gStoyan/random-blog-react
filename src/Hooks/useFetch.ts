@@ -38,12 +38,8 @@ const useFetch = (url: any) => {
   useEffect(() => {
     let result: any;
     const fetchData = async () => {
-      try { 
-        if (url==="users") {
+      try {
           result = await seedUsers();
-          dispatch({type: 'FETCH_SUCCESS', payload: result})
-          return;
-        }
           const response = await fetch(url);
           result = await response.json();
       } catch (error) {
