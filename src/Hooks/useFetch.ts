@@ -1,51 +1,49 @@
-import { useState, useEffect, useReducer } from 'react';
-import User from '../Models/User';
-import Blog from '../Models/Blog';
+import { useState, useEffect, useReducer } from "react";
+import User from "../Models/User";
+import Blog from "../Models/Blog";
 
-//initialSet is set to empty. 
+//initialSet is set to empty.
 //When the reducer function is called, the state is set to the result that was fetched from the API.
 const initialState = {
   loading: true,
-  error: '',
-  data: []
-}
+  error: "",
+  data: [],
+};
 const reducer = (state: any, action: any) => {
-  console.log("action", action)
+  console.log("action", action);
   switch (action.type) {
-    case 'FETCH_SUCCESS':
+    case "FETCH_SUCCESS":
       return {
         loading: false,
         data: action.payload,
-        error: ''
-      }
-    case 'FETCH_ERROR':
+        error: "",
+      };
+    case "FETCH_ERROR":
       return {
         loading: false,
         data: [],
-        error: 'Something went wrong!'
-      }
+        error: "Something went wrong!",
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 const useFetch = (url: any) => {
-  //state is set to initial state when initialised. 
-  //When dispatch is called, the reducer function is called with the current state and the action. 
-  //The reducer function returns the new state based on the action type. 
+  //state is set to initial state when initialised.
+  //When dispatch is called, the reducer function is called with the current state and the action.
+  //The reducer function returns the new state based on the action type.
   //The new state is then set to the state variable.
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     let result: any;
     const fetchData = async () => {
       try {
-          result = await seedUsers();
-          const response = await fetch(url);
-          result = await response.json();
+        const response = await fetch(url);
       } catch (error) {
-        dispatch({type: 'FETCH_ERROR'})
+        dispatch({ type: "FETCH_ERROR" });
       } finally {
-        dispatch({type: 'FETCH_SUCCESS', payload: result})
+        dispatch({ type: "FETCH_SUCCESS", payload: result });
       }
     };
 
@@ -53,56 +51,5 @@ const useFetch = (url: any) => {
   }, [url]);
   return state;
 };
-
-
-//seeding data for testing
-//TODO: Remove
-function seedUsers(){
-  return Promise.resolve([
-    {
-        id: 1,
-        name: "John",
-        email: "test",
-        dateOfBirth: "1990-01-01",
-        blogs: Array<Blog>()
-    },
-    {
-        id: 2,
-        name: "Jane",
-        email: "test",
-        dateOfBirth: "1990-01-01",
-        blogs: [
-            {
-                title: "Test",
-                content: "Test",
-                date: "2021-01-01"
-            }
-        ]
-    },
-    {
-        id: 3,
-        name: "Jack",
-        email: "test",
-        dateOfBirth: "1990-01-01",
-        blogs: [
-            {
-                title: "Test",
-                content: "Test",
-                date: "2021-01-01"
-            },
-            {
-                title: "Test",
-                content: "Test",
-                date: "2021-01-01"
-            },
-            {
-                title: "Test",
-                content: "Test",
-                date: "2021-01-01"
-            }
-        ]
-    }
-  ]);
-}
 
 export default useFetch;

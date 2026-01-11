@@ -5,8 +5,28 @@ import Comment from "./Comment";
 
 const Home = () => {
   const state = useFetch("localhost:3000/blogs");
+  const testBlogs: Blog[] = [
+    {
+      id: 1,
+      title: "Understanding MiCA Regulation",
+      body: "MiCA introduces a unified regulatory framework for digital assets across the EU...",
+      created_at: "2025-01-10",
+    },
+    {
+      id: 2,
+      title: "Crypto Market in 2025",
+      body: "The crypto market continues to evolve with new compliance requirements...",
+      created_at: "2025-02-05",
+    },
+    {
+      id: 3,
+      title: "What Are Stablecoins?",
+      body: "Stablecoins aim to maintain a stable value and play a key role in crypto regulations...",
+      created_at: "2025-03-01",
+    },
+  ];
 
-  const blogs: Blog[] = state.data;
+  const blogs = Array.isArray(state?.data) ? state.data : testBlogs;
   const [visiblePostIds, setVisiblePostIds] = useState<number[]>([]);
 
   const [showComments, setShowComments] = useState(false);
@@ -30,7 +50,7 @@ const Home = () => {
     <div className="blog-index-container">
       <h1>All Blog Posts</h1>
       <div className="blog-posts">
-        {blogs.map((blog) => (
+        {blogs.map((blog: Blog) => (
           <div key={blog.id} className="blog-post">
             <h2>{blog.title}</h2>
             <button onClick={() => toggleContentVisibility(blog.id)}>
