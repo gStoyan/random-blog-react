@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useFetch from "../../Hooks/useFetch";
 import Blog from "../../Models/Blog";
 import Comment from "./Comment";
@@ -42,7 +42,7 @@ const Home = () => {
     setVisiblePostIds(
       visiblePostIds.includes(id)
         ? visiblePostIds.filter((visibleId) => visibleId !== id)
-        : [...visiblePostIds, id]
+        : [...visiblePostIds, id],
     );
   };
 

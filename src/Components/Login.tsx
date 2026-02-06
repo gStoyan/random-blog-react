@@ -1,8 +1,6 @@
-import React from "react";
 import { useState } from "react";
 import useForm from "../Hooks/useForm";
 import useFetch from "../Hooks/useFetch";
-import { resolve } from "path";
 
 const Login = () => {
   const [isWaiting, setIsWaiting] = useState(false);
@@ -31,7 +29,7 @@ const Login = () => {
       password: "",
       confirmPassword: "",
     },
-    onRegisterSubmit
+    onRegisterSubmit,
   );
   console.log(errors);
   return (

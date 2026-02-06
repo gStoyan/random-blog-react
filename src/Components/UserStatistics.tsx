@@ -1,7 +1,3 @@
-import User from "../Models/User";
-import { getAllUsers } from "../Services/userServices";
-import { useEffect, useState } from "react";
-
 const UserStatistics = () => {
   return <div>User Statistics</div>;
 

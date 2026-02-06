@@ -1,6 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
-import User from "../Models/User";
-import Blog from "../Models/Blog";
+import { useEffect, useReducer } from "react";
 
 //initialSet is set to empty.
 //When the reducer function is called, the state is set to the result that was fetched from the API.
