@@ -10,7 +10,7 @@ export default function useForm(initialValues: any, onSubmitHandler: any) {
       //TODO
       case "email":
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-        if (value.length == 0) {
+        if (value.length === 0) {
           setErrors({
             ...errors,
             email: "You can't have empty fields!",

@@ -37,7 +37,6 @@ const useFetch = (url: any) => {
     let result: any;
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
       } catch (error) {
         dispatch({ type: "FETCH_ERROR" });
       } finally {
