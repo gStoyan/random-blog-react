@@ -1,8 +1,11 @@
-interface Blog{
-    id: number;
-    title: string;
-    body: string;
-    created_at: string;
+interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default Blog;

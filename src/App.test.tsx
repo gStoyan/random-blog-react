@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import UserStatistics from "./Components/UserStatistics";
+import UserStatistics from "./Components/Pages/UserStatistics/UserStatistics";
 
 test("displays the correct number of blogs written by the user", () => {
   const numberOfBlogs = 5; // Example number of blogs

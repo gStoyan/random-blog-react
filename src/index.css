@@ -3,54 +3,70 @@
 /* base styles */
 * {
   margin: 0;
-  font-family: "Quicksand";
-  color: #e3c8c8;
+  font-family: "Quicksand", sans-serif;
+  color: #e0e0e0;
 }
 
 :root {
-  --background-color: #1e1e1e;
-  --primary-color: #282828;
-  --secondary-color: #383838;
-  --text-color: #f5f5f5;
-  --accent-color: #9f7aea;
-  --button-color: #03dac6;
-  --button-hover-color: #018786;
+  --background-color: #1a1a1a;
+  --primary-color: #2a2a2a;
+  --secondary-color: #333333;
+  --text-color: #e0e0e0;
+  --accent-color: #00bcd4;
+  --button-color: #00bcd4;
+  --button-hover-color: #00acc1;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: "Arial", sans-serif;
+  font-family: "Quicksand", sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .navbar {
-  padding: 20px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
-  margin: 0 auto;
-  border-bottom: 1px solid #f2f2f2;
+  background: #1f1f1f;
+  border-bottom: 2px solid #00bcd4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
 }
+
 .navbar h1 {
-  color: #f1356d;
+  color: #76ff03;
+  font-size: 1.5rem;
+  margin: 0;
 }
+
 .navbar .links {
   margin-left: auto;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 }
+
 .navbar a {
-  margin-left: 16px;
+  margin-left: 0;
   text-decoration: none;
-  padding: 6px;
+  padding: 8px 12px;
+  color: #d0d0d0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
+
 .navbar a:hover {
-  color: #f1356d;
+  color: #00bcd4;
+  background: #2a2a2a;
 }
+
 .content {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #1a1a1a;
 }
 .blog-creation-container {
   max-width: 800px;
@@ -323,7 +339,9 @@ h1 {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .comment-button:hover {

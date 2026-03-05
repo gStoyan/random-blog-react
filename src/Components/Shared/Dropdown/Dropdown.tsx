@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import "./Dropdown.css";
 
 const Dropdown = ({ children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,15 +7,15 @@ const Dropdown = ({ children }: any) => {
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-    if (dropdownRef.current) {
+      if (dropdownRef.current) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 

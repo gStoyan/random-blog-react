@@ -20,7 +20,7 @@ const reducer = (state: any, action: any) => {
       return {
         loading: false,
         data: [],
-        error: "Something went wrong!",
+        error: action.payload || "Something went wrong!",
       };
     default:
       return state;
@@ -37,10 +37,15 @@ const useFetch = (url: any) => {
     let result: any;
     const fetchData = async () => {
       try {
-      } catch (error) {
-        dispatch({ type: "FETCH_ERROR" });
-      } finally {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        result = await response.json();
         dispatch({ type: "FETCH_SUCCESS", payload: result });
+      } catch (error: any) {
+        console.error("Fetch error:", error);
+        dispatch({ type: "FETCH_ERROR", payload: error.message });
       }
     };
 

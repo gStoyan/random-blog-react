@@ -1,9 +1,9 @@
-import Navbar from "./Navbar";
+import Navbar from "../Shared/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
-import Create from "./Create";
-import Home from "./home/Home";
-import Login from "./Login";
-import Statistics from "./UserStatistics";
+import Create from "../Pages/Create/Create";
+import Home from "../Pages/Home/Home";
+import Login from "../Pages/Login/Login";
+import Statistics from "../Pages/UserStatistics/UserStatistics";
 
 function App() {
   return (

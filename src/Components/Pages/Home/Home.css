@@ -1,0 +1,275 @@
+.home-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  min-height: 100vh;
+}
+
+.blog-hero {
+  text-align: center;
+  margin-bottom: 60px;
+  animation: slideDown 0.6s ease-out;
+}
+
+.blog-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0 0 15px 0;
+  letter-spacing: -1px;
+}
+
+.blog-subtitle {
+  font-size: 1.1rem;
+  color: #b0b0b0;
+  margin: 0;
+  font-weight: 400;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.blog-card {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 4px solid #00bcd4;
+}
+
+.blog-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 188, 212, 0.2);
+  transform: translateY(-4px);
+  background: #323232;
+}
+
+.blog-header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.blog-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.blog-card-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  line-height: 1.3;
+  flex: 1;
+  min-width: 200px;
+}
+
+.blog-date {
+  font-size: 0.9rem;
+  color: #909090;
+  white-space: nowrap;
+  padding: 4px 12px;
+  background: #1f1f1f;
+  border-radius: 6px;
+}
+
+.blog-excerpt {
+  color: #c0c0c0;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-expanded-content {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #404040;
+  animation: slideDown 0.3s ease-out;
+}
+
+.blog-full-content {
+  margin-bottom: 24px;
+}
+
+.blog-full-content p {
+  color: #d0d0d0;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.comments-section {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid #404040;
+  animation: slideDown 0.3s ease-out;
+}
+
+.error-message {
+  background: #3a1f1f;
+  color: #ff6b6b;
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #ff6b6b;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Button Styles */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: #00bcd4;
+  color: #000;
+}
+
+.btn-primary:hover {
+  background: #00acc1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 188, 212, 0.6);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: #76ff03;
+  color: #000;
+  margin-top: 16px;
+}
+
+.btn-secondary:hover {
+  background: #64dd17;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(118, 255, 3, 0.6);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-delete {
+  background: #f44336;
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.6);
+}
+
+.btn-delete:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 40px 16px;
+  }
+
+  .blog-title {
+    font-size: 2.5rem;
+  }
+
+  .blog-subtitle {
+    font-size: 1rem;
+  }
+
+  .blog-card {
+    padding: 24px;
+  }
+
+  .blog-card-title {
+    font-size: 1.5rem;
+  }
+
+  .blog-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .blog-date {
+    align-self: flex-start;
+  }
+
+  .blog-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 30px 12px;
+  }
+
+  .blog-title {
+    font-size: 2rem;
+  }
+
+  .blog-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .blog-card {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .blog-card-title {
+    font-size: 1.3rem;
+  }
+
+  .blog-excerpt {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
