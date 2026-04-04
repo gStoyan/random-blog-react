@@ -109,6 +109,30 @@
   transform: none;
 }
 
+.auth-status {
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.auth-status.error {
+  background: rgba(255, 107, 107, 0.12);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+  color: #ff8f8f;
+}
+
+.auth-status.success {
+  background: rgba(118, 255, 3, 0.12);
+  border: 1px solid rgba(118, 255, 3, 0.35);
+  color: #b9ff8a;
+}
+
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .form-divider {
   display: flex;
   align-items: center;

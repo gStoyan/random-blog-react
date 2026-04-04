@@ -1,112 +1,99 @@
-import { useState } from "react";
-import useForm from "../../../Hooks/useForm";
-import useFetch from "../../../Hooks/useFetch";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
+import { loginUser } from "../../../Services/userServices";
 import "./Login.css";
 
-const Login = () => {
-  const [isWaiting, setIsWaiting] = useState(false);
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
-  const login = useFetch("http://localhost:3000/auth/login");
-  const onRegisterSubmit = async (data: any) => {
+const Login = () => {
+  const [values, setValues] = useState<LoginFormValues>({
+    email: "",
+    password: "",
+  });
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValues((currentValues) => ({
+      ...currentValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsWaiting(true);
-    const response = login();
-    if (response.error) {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const response = await loginUser(values);
+
+    if (!response.success) {
+      setErrorMessage(response.error || "Login failed. Please try again.");
       setIsWaiting(false);
-      alert(`Error: ${response.error.message}`);
       return;
     }
-    if (response.ok) {
-      const { token } = await response.json();
-      localStorage.setItem("authToken", token);
+
+    if (response.data?.token) {
+      localStorage.setItem("authToken", response.data.token);
     }
+
+    setSuccessMessage("Login request completed successfully.");
+    setValues({ email: "", password: "" });
     setIsWaiting(false);
-    alert(`Success! \n ${JSON.stringify(data)}`);
   };
-  const { values, changeHandler, onSubmit, errors } = useForm(
-    {
-      username: "",
-      email: "",
-      dateOfBirth: "",
-      password: "",
-      confirmPassword: "",
-    },
-    onRegisterSubmit,
-  );
-  console.log(errors);
+
   return (
-    <>
-      {isWaiting ? (
-        <p>Waiting...</p>
-      ) : (
-        <div>
-          <h2>Login</h2>
-          <form onSubmit={onSubmit} className="login-form">
-            <div>
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                name="username"
-                id="username"
-                value={values.username}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                value={values.email}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="dateOfBirth">Date of birth:</label>
-              <input
-                type="date"
-                name="dateOfBirth"
-                id="dateOfBirth"
-                value={values.dateOfBirth}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                value={values.password}
-                onChange={changeHandler}
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword">Confirm password:</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                value={values.confirmPassword}
-                onChange={changeHandler}
-              />
-            </div>
-            <p className="error-field">
-              {errors?.email || errors?.password || errors?.repeatPassword}
-            </p>
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={
-                !!(errors?.email || errors?.password || errors?.repeatPassword)
-              }
-            >
-              Login
-            </button>
-          </form>
-        </div>
-      )}
-    </>
+    <div className="login-container">
+      <div className="login-form-wrapper">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={values.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          {errorMessage && <p className="auth-status error">{errorMessage}</p>}
+          {successMessage && (
+            <p className="auth-status success">{successMessage}</p>
+          )}
+
+          <button type="submit" className="login-button" disabled={isWaiting}>
+            {isWaiting ? "Signing in..." : "Login"}
+          </button>
+        </form>
+
+        <p className="signup-link">
+          Don&apos;t have an account? <Link to="/register">Register</Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

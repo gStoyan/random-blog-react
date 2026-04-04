@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -5,11 +6,12 @@ const Navbar = () => {
     <nav className="navbar">
       <h1>My Random Blog</h1>
       <div className="links">
-        <a href="/">Home</a>
-        <a href="/statistics">Statistics</a>
-        <a href="/login">Login</a>
-        <a
-          href="/create"
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/statistics">Statistics</NavLink>
+        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/register">Register</NavLink>
+        <NavLink
+          to="/create"
           style={{
             color: "white",
             backgroundColor: "#f1356d",
@@ -17,7 +19,7 @@ const Navbar = () => {
           }}
         >
           New Blog
-        </a>
+        </NavLink>
       </div>
     </nav>
   );

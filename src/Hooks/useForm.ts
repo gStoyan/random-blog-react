@@ -1,85 +1,102 @@
-import { useState } from "react";
-import ErrorModel from "../Models/Error";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-export default function useForm(initialValues: any, onSubmitHandler: any) {
-  const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState<ErrorModel>({} as ErrorModel);
+type FormErrors<T> = Partial<Record<keyof T, string>>;
 
-  const validate = (name: any, value: any) => {
+export default function useForm<T extends object>(
+  initialValues: T,
+  onSubmitHandler: (values: T) => void | boolean | Promise<void | boolean>,
+) {
+  const [values, setValues] = useState<T>(initialValues);
+  const [errors, setErrors] = useState<FormErrors<T>>({});
+
+  const setFieldError = (field: keyof T, message: string) => {
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: message,
+    }));
+  };
+
+  const validate = (name: keyof T, value: string, nextValues: T) => {
+    const nextFormValues = nextValues as Record<string, string>;
+
     switch (name) {
-      //TODO
-      case "email":
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-        if (value.length === 0) {
-          setErrors({
-            ...errors,
-            email: "You can't have empty fields!",
-          });
-        } else if (!regex.test(value)) {
-          setErrors({
-            ...errors,
-            email: "Enter a valid email address",
-          });
-        } else {
-          setErrors({
-            ...errors,
-            email: "",
-          });
-        }
-        break;
+      case "email" as keyof T: {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
-      case "password":
-        const regexP = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{5,}$/;
-        if (!regexP.test(value)) {
-          setErrors({
-            ...errors,
-            password:
-              "Password should contain atleast 5 charaters, uppercase, lowercase letters and numbers",
-          });
+        if (value.trim().length === 0) {
+          setFieldError(name, "You can't have empty fields!");
+        } else if (!emailRegex.test(value)) {
+          setFieldError(name, "Enter a valid email address");
         } else {
-          setErrors({
-            ...errors,
-            password: "",
-          });
+          setFieldError(name, "");
         }
         break;
-      case "confirmPassword":
-        if (values.password !== value) {
-          setErrors({
-            ...errors,
-            password: "Passwords are not the equal",
-          });
-        } else {
-          setErrors({
-            ...errors,
-            password: "",
-          });
-        }
-        break;
+      }
+      case "password" as keyof T: {
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{5,}$/;
 
+        if (!passwordRegex.test(value)) {
+          setFieldError(
+            name,
+            "Password should contain at least 5 characters, uppercase, lowercase letters and numbers",
+          );
+        } else {
+          setFieldError(name, "");
+        }
+
+        if (nextFormValues.confirmPassword) {
+          setFieldError(
+            "confirmPassword" as keyof T,
+            nextFormValues.confirmPassword !== value
+              ? "Passwords do not match"
+              : "",
+          );
+        }
+        break;
+      }
+      case "confirmPassword" as keyof T:
+        setFieldError(
+          name,
+          nextFormValues.password !== value ? "Passwords do not match" : "",
+        );
+        break;
       default:
         break;
     }
   };
 
-  const changeHandler = (e: any) => {
-    setValues((state: any) => ({ ...state, [e.target.name]: e.target.value }));
-    validate(e.target.name, e.target.value);
+  const changeHandler = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    const key = name as keyof T;
+    const nextValues = {
+      ...values,
+      [key]: value,
+    } as T;
+
+    setValues(nextValues);
+    validate(key, value, nextValues);
   };
 
-  const onSubmit = (e: any) => {
-    console.log("submit");
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (
-      Object.keys(errors).some((val) => val !== "") &&
-      Object.values(values).some((val) => val === "")
-    ) {
+    const hasErrors = Object.values(errors).some(Boolean);
+    const hasEmptyValues = Object.values(values as Record<string, string>).some(
+      (value) => value.trim() === "",
+    );
+
+    if (hasErrors || hasEmptyValues) {
       return;
     }
-    onSubmitHandler(values);
 
-    setValues(initialValues);
+    const shouldReset = await onSubmitHandler(values);
+
+    if (shouldReset !== false) {
+      setValues(initialValues);
+      setErrors({});
+    }
   };
 
   return {
