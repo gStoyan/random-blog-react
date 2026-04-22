@@ -4,6 +4,7 @@ interface Blog {
   slug: string;
   content: string;
   tags: string[];
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
 }

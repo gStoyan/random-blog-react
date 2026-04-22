@@ -8,6 +8,8 @@ const Create: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [tags, setTags] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
@@ -43,6 +45,38 @@ const Create: React.FC = () => {
     );
   }
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file size (limit to 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setError("Image size should be less than 2MB");
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith("image/")) {
+        setError("Please select a valid image file");
+        return;
+      }
+
+      setImageFile(file);
+      setError("");
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview("");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -58,6 +92,7 @@ const Create: React.FC = () => {
         title,
         content,
         tags: tagsArray.length > 0 ? tagsArray : ["general"],
+        imageUrl: imagePreview || undefined,
       });
 
       if (!result.success) {
@@ -71,6 +106,8 @@ const Create: React.FC = () => {
       setTitle("");
       setContent("");
       setTags("");
+      setImageFile(null);
+      setImagePreview("");
 
       // Navigate to home page
       navigate("/");
@@ -127,6 +164,31 @@ const Create: React.FC = () => {
           />
         </div>
 
+        <div className="blog-form-group">
+          <label htmlFor="image">Image (optional, max 2MB)</label>
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            disabled={isLoading}
+            className="image-input"
+          />
+          {imagePreview && (
+            <div className="image-preview-container">
+              <img src={imagePreview} alt="Preview" className="image-preview" />
+              <button
+                type="button"
+                onClick={removeImage}
+                className="remove-image-btn"
+                disabled={isLoading}
+              >
+                Remove Image
+              </button>
+            </div>
+          )}
+        </div>
+
         <div className="form-button-group">
           <button
             type="submit"
@@ -143,6 +205,8 @@ const Create: React.FC = () => {
               setTitle("");
               setContent("");
               setTags("");
+              setImageFile(null);
+              setImagePreview("");
               setError("");
             }}
             disabled={isLoading}

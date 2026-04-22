@@ -195,3 +195,45 @@
   text-align: center;
   font-weight: 500;
 }
+
+.image-input {
+  padding: 8px !important;
+  cursor: pointer;
+}
+
+.image-preview-container {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 2px solid #505050;
+}
+
+.remove-image-btn {
+  align-self: flex-start;
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-image-btn:hover {
+  background: #ff1744;
+  transform: translateY(-2px);
+}
+
+.remove-image-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

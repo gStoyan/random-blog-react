@@ -112,6 +112,16 @@ const Home = () => {
               </div>
             </div>
 
+            {blog.imageUrl && (
+              <div className="blog-image-container">
+                <img
+                  src={blog.imageUrl}
+                  alt={blog.title}
+                  className="blog-image"
+                />
+              </div>
+            )}
+
             <p className="blog-excerpt">{blog.content}</p>
 
             <button

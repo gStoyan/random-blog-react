@@ -4,6 +4,7 @@ interface CreateBlogData {
   title: string;
   content: string;
   tags: string[];
+  imageUrl?: string;
 }
 
 function getAuthHeaders(): HeadersInit {
