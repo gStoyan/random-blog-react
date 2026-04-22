@@ -154,3 +154,44 @@
     font-size: 0.9rem;
   }
 }
+
+.auth-required-message {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.auth-required-message p {
+  color: #d0d0d0;
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+.auth-link {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #00bcd4;
+  color: #000;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.auth-link:hover {
+  background: #00acc1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 188, 212, 0.6);
+}
+
+.error-message {
+  background: #ff5252;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+}

@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../../Services/userServices";
+import { useAuth } from "../../../Hooks/useAuth";
 import "./Login.css";
 
 interface LoginFormValues {
@@ -10,6 +11,7 @@ interface LoginFormValues {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, login } = useAuth();
   const [values, setValues] = useState<LoginFormValues>({
     email: "",
     password: "",
@@ -17,6 +19,13 @@ const Login = () => {
   const [isWaiting, setIsWaiting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,8 +49,8 @@ const Login = () => {
       return;
     }
 
-    if (response.data?.token) {
-      localStorage.setItem("authToken", response.data.token);
+    if (response.data?.token && response.data?.user) {
+      login(response.data.token, response.data.user);
       setSuccessMessage("Login successful! Redirecting...");
       setValues({ email: "", password: "" });
 

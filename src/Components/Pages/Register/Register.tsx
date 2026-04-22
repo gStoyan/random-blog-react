@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import useForm from "../../../Hooks/useForm";
 import { registerUser } from "../../../Services/userServices";
+import { useAuth } from "../../../Hooks/useAuth";
 import "../Login/Login.css";
 import "./Register.css";
 
@@ -14,11 +15,20 @@ interface RegisterFormValues {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [status, setStatus] = useState<{
     type: "success" | "error" | "idle";
     message: string;
   }>({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const onRegisterSubmit = async (data: RegisterFormValues) => {
     const response = await registerUser({
@@ -42,6 +52,11 @@ const Register = () => {
         response.data?.message ||
         "Registration successful. You can now sign in.",
     });
+
+    // Redirect to login after successful registration
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
 
     return true;
   };

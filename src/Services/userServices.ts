@@ -12,6 +12,25 @@ export interface RegisterPayload {
   password: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  dateOfBirth: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  user: User;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user: User;
+}
+
 interface ServiceResult<T = unknown> {
   success: boolean;
   data?: T;
@@ -85,12 +104,9 @@ async function postJson<TPayload, TResponse>(
 }
 
 export async function loginUser(payload: LoginPayload) {
-  return postJson<LoginPayload, { token?: string }>("/auth/login", payload);
+  return postJson<LoginPayload, LoginResponse>("/auth/login", payload);
 }
 
 export async function registerUser(payload: RegisterPayload) {
-  return postJson<RegisterPayload, { message?: string }>(
-    "/auth/register",
-    payload,
-  );
+  return postJson<RegisterPayload, RegisterResponse>("/auth/register", payload);
 }

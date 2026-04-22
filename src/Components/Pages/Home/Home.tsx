@@ -3,9 +3,11 @@ import useFetch from "../../../Hooks/useFetch";
 import Blog from "../../../Models/Blog";
 import Comment from "./Comment";
 import { deleteBlog } from "../../../Services/blogServices";
+import { useAuth } from "../../../Hooks/useAuth";
 import "./Home.css";
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
   const state = useFetch(
     "https://randomblog.grancharovstoyan.deno.net/api/blogs",
   );
@@ -98,13 +100,15 @@ const Home = () => {
               <h2 className="blog-card-title">{blog.title}</h2>
               <div className="blog-header-actions">
                 <time className="blog-date">{formatDate(blog.createdAt)}</time>
-                <button
-                  className="btn btn-delete"
-                  onClick={() => handleDelete(blog.slug, blog.id)}
-                  disabled={deletingBlogId === blog.id}
-                >
-                  {deletingBlogId === blog.id ? "Deleting..." : "Delete"}
-                </button>
+                {isAuthenticated && (
+                  <button
+                    className="btn btn-delete"
+                    onClick={() => handleDelete(blog.slug, blog.id)}
+                    disabled={deletingBlogId === blog.id}
+                  >
+                    {deletingBlogId === blog.id ? "Deleting..." : "Delete"}
+                  </button>
+                )}
               </div>
             </div>
 

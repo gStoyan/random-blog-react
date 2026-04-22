@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { createBlog } from "../../../Services/blogServices";
+import { useAuth } from "../../../Hooks/useAuth";
 import "./Create.css";
 
 const Create: React.FC = () => {
@@ -10,6 +11,37 @@ const Create: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+
+  // Show loading while checking auth status
+  if (authLoading) {
+    return (
+      <div className="blog-creation-container">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // Show message if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="blog-creation-container">
+        <h1>Authentication Required</h1>
+        <div className="auth-required-message">
+          <p>You need to be logged in to create a blog post.</p>
+          <div style={{ marginTop: "20px" }}>
+            <Link to="/login" className="auth-link">
+              Login
+            </Link>
+            <span style={{ margin: "0 10px" }}>or</span>
+            <Link to="/register" className="auth-link">
+              Register
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
