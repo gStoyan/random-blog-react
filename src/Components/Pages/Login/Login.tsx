@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../../Services/userServices";
 import "./Login.css";
 
@@ -9,6 +9,7 @@ interface LoginFormValues {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState<LoginFormValues>({
     email: "",
     password: "",
@@ -41,11 +42,17 @@ const Login = () => {
 
     if (response.data?.token) {
       localStorage.setItem("authToken", response.data.token);
-    }
+      setSuccessMessage("Login successful! Redirecting...");
+      setValues({ email: "", password: "" });
 
-    setSuccessMessage("Login request completed successfully.");
-    setValues({ email: "", password: "" });
-    setIsWaiting(false);
+      // Redirect to home page after a short delay
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } else {
+      setErrorMessage("Login succeeded but no token received.");
+      setIsWaiting(false);
+    }
   };
 
   return (
