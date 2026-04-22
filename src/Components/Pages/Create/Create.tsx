@@ -8,7 +8,6 @@ const Create: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [tags, setTags] = useState<string>("");
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -60,7 +59,6 @@ const Create: React.FC = () => {
         return;
       }
 
-      setImageFile(file);
       setError("");
 
       // Create preview
@@ -73,7 +71,6 @@ const Create: React.FC = () => {
   };
 
   const removeImage = () => {
-    setImageFile(null);
     setImagePreview("");
   };
 
@@ -106,7 +103,6 @@ const Create: React.FC = () => {
       setTitle("");
       setContent("");
       setTags("");
-      setImageFile(null);
       setImagePreview("");
 
       // Navigate to home page
@@ -205,7 +201,6 @@ const Create: React.FC = () => {
               setTitle("");
               setContent("");
               setTags("");
-              setImageFile(null);
               setImagePreview("");
               setError("");
             }}
